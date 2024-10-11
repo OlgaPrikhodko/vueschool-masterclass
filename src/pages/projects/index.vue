@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { supabase } from '@/lib/supabaseClient'
 import { ref, h } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import type { Tables } from '../../../database/types'
 import type { ColumnDef } from '@tanstack/vue-table'
@@ -14,8 +15,6 @@ const projects = ref<Tables<'projects'>[] | null>(null)
   if (error) console.error(error)
 
   projects.value = data
-
-  console.log('Projects: ', projects.value)
 })()
 
 const columns: ColumnDef<Tables<'projects'>>[] = [
@@ -23,7 +22,14 @@ const columns: ColumnDef<Tables<'projects'>>[] = [
     accessorKey: 'name',
     header: () => h('div', { class: 'text-left' }, 'Name'),
     cell: ({ row }) => {
-      return h('div', { class: 'text-left font-medium' }, row.getValue('name'))
+      return h(
+        RouterLink,
+        {
+          to: `/projects/${row.original.slug}`,
+          class: 'text-left font-medium hoover:bg-muted block w-full'
+        },
+        () => row.getValue('name')
+      )
     }
   },
   {
@@ -50,3 +56,13 @@ const columns: ColumnDef<Tables<'projects'>>[] = [
 <template>
   <DataTable v-if="projects" :columns="columns" :data="projects" />
 </template>
+
+<style lang="css" scoped>
+td {
+  @apply p-0;
+}
+
+td > * {
+  @apply p-4;
+}
+</style>

@@ -5,6 +5,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <h1>SingleProject</h1>
-  <p>Project {{ route.params?.id }}</p>
+  <div>Task Page {{ route.params?.id }}</div>
 </template>
+
+<style scoped></style>
