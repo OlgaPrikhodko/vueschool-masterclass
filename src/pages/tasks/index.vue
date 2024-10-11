@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { h, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import { RouterLink } from 'vue-router'
 

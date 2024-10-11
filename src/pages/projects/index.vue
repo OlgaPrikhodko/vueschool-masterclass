@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { supabase } from '@/lib/supabaseClient'
-import { ref, h } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import type { Tables } from '../../../database/types'
