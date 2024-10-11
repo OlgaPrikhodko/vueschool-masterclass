@@ -1,3 +1,4 @@
+import 'iconify-icon'
 import './assets/index.css'
 
 import App from './App.vue'
