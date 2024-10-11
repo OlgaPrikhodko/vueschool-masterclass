@@ -2,6 +2,7 @@ import { URL, fileURLToPath } from 'node:url'
 
 import AutoImport from 'unplugin-auto-import/vite'
 import VueRouter from 'unplugin-vue-router/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
 import autoprefixer from 'autoprefixer'
 import { defineConfig } from 'vite'
 import tailwind from 'tailwindcss'
@@ -22,7 +23,7 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/ // .md
       ],
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', VueRouterAutoImports],
       dts: true,
       viteOptimizeDeps: true
     }),
