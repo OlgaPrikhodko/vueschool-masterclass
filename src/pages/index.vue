@@ -1,6 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+usePageStore().pageData.title = 'Homepage'
+</script>
 
 <template>
-  <h1>HomeView</h1>
   <RouterLink to="/projects">Projects</RouterLink>
 </template>
