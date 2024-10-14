@@ -6,9 +6,23 @@ const error = ref(errorStore.activeError)
 const message = ref('')
 const customCode = ref(0)
 
-if (error.value) {
+// supabase error details
+const details = ref('')
+const code = ref('')
+const hint = ref('')
+const statusCode = ref(0)
+
+if (error.value && !('code' in error.value)) {
   message.value = error.value.message
   customCode.value = error.value.customCode ?? 0
+}
+
+// supabase error details
+if (error.value && 'code' in error.value) {
+  details.value = error.value.details
+  code.value = error.value.code
+  hint.value = error.value.hint
+  statusCode.value = error.value.statusCode ?? 0
 }
 
 router.afterEach(() => (errorStore.activeError = null))
@@ -18,8 +32,11 @@ router.afterEach(() => (errorStore.activeError = null))
   <section class="error">
     <div>
       <iconify-icon icon="lucide:triangle-alert" class="error__icon" />
-      <h1 class="error__code">{{ customCode }}</h1>
+      <h1 class="error__code">{{ customCode || code }}</h1>
+      <p class="error__code" v-if="statusCode">Status Code: {{ statusCode }}</p>
       <p class="error__msg">{{ message }}</p>
+      <p v-if="hint">{{ hint }}</p>
+      <p v-if="details">{{ details }}</p>
       <div class="error-footer">
         <p class="error-footer__text">You'll find lots to explore on the home page.</p>
         <RouterLink to="/">
