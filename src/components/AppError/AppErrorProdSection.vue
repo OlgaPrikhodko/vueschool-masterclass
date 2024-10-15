@@ -3,9 +3,6 @@ const props = defineProps<{
   message: string
   customCode: number
   statusCode: number
-  code: string
-  hint: string | null
-  details: string
   isCustomError: boolean
 }>()
 

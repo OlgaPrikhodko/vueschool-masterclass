@@ -28,7 +28,7 @@ const ErrorTemplate = import.meta.env.DEV
   ? defineAsyncComponent(() => import('./AppErrorDevSection.vue'))
   : defineAsyncComponent(() => import('./AppErrorProdSection.vue'))
 
-router.afterEach(() => (errorStore.activeError = null))
+router.afterEach(() => errorStore.clearError())
 </script>
 
 <template>
