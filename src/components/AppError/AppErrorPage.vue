@@ -24,14 +24,16 @@ if (error.value && 'code' in error.value) {
   hint.value = error.value.hint
   statusCode.value = error.value.statusCode ?? 0
 }
+const ErrorTemplate = import.meta.env.DEV
+  ? defineAsyncComponent(() => import('./AppErrorDevSection.vue'))
+  : defineAsyncComponent(() => import('./AppErrorProdSection.vue'))
 
 router.afterEach(() => (errorStore.activeError = null))
 </script>
 
 <template>
   <section class="error">
-    <AppErrorDevSection :message :details :customCode :code :statusCode :hint />
-    <AppErrorProdSection
+    <ErrorTemplate
       :message
       :details
       :customCode
@@ -68,7 +70,7 @@ router.afterEach(() => (errorStore.activeError = null))
   @apply text-lg text-muted-foreground;
 }
 
-p {
+:deep(p) {
   @apply my-2;
 }
 </style>
