@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFormErrors } from '@/composables/formErrors'
 import { login } from '@/utils/supabaseAuth'
+import { watchDebounced } from '@vueuse/core'
 
 const router = useRouter()
 
@@ -8,7 +9,15 @@ const formData = ref({
   email: '',
   password: ''
 })
-const { serverError, handleServerError } = useFormErrors()
+const { serverError, handleServerError, realtimeErrors, handleLoginForm } = useFormErrors()
+
+watchDebounced(
+  formData,
+  () => {
+    handleLoginForm(formData.value)
+  },
+  { debounce: 1000, deep: true }
+)
 
 const signin = async () => {
   const { error } = await login(formData.value)
@@ -42,6 +51,11 @@ const signin = async () => {
               v-model="formData.email"
               :class="{ 'border-red-500': serverError }"
             />
+            <ul v-if="realtimeErrors?.email.length" class="text-sm text-left text-red-500">
+              <li v-for="error in realtimeErrors.email" :key="error" class="list-disc">
+                {{ error }}
+              </li>
+            </ul>
           </div>
           <div class="grid gap-2">
             <div class="flex items-center">
@@ -56,6 +70,11 @@ const signin = async () => {
               v-model="formData.password"
               :class="{ 'border-red-500': serverError }"
             />
+            <ul v-if="realtimeErrors?.password.length" class="text-sm text-left text-red-500">
+              <li v-for="error in realtimeErrors.password" :key="error" class="list-disc">
+                {{ error }}
+              </li>
+            </ul>
           </div>
           <ul v-if="serverError" class="text-sm text-left text-red-500">
             <li class="list-disc">{{ serverError }}</li>
