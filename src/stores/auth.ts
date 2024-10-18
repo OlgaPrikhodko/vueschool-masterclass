@@ -26,6 +26,7 @@ export const useAuthStore = defineStore('auth-store', () => {
       return
     }
 
+    user.value = userSession.user
     await setProfile()
   }
 
